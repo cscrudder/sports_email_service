@@ -27,9 +27,6 @@ def get_standings():
     #print(standings_data["conferences"][0]["divisions"][0]["teams"][0].keys())
     #print(len(standings_data["conferences"]))
 
-    # printing a clean list of standings
-    # Eastern conference
-
     return standings_data
 
 
@@ -118,10 +115,12 @@ def nhl_division_standings(standings_data):
             print(" ")
 
 
-standings = get_standings()
+if __name__ == "__main__":
 
-nhl_conference_standings(standings)
-nhl_division_standings(standings)
+    standings = get_standings()
+
+    nhl_conference_standings(standings)
+    nhl_division_standings(standings)
 
 
 
