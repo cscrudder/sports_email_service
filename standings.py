@@ -43,11 +43,6 @@ def get_standings():
     
     eastern_teams = sorted(eastern_teams, key = lambda x: x[0])
 
-
-    #ordered_rankings = []
-    #for team in range(len(eastern_teams)):
-    #    if eastern_teams[team][0] == team+1:
-    #        ordered_rankings.append(eastern_teams[team])
     
     print("EASTERN CONFERENCE STANDINGS")
     print(" ")
