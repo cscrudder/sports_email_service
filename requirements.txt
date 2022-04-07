@@ -1,0 +1,21 @@
+# package requirements
+
+# API requests
+requests
+
+# environment variables
+python-dotenv
+
+#email
+sendgrid==6.6.0
+
+# testing
+pytest
+
+#data viz
+plotly.express
+
+# data processing
+pandas
+
+json
