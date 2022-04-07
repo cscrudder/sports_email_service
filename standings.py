@@ -2,13 +2,14 @@ from datetime import date
 import requests
 from dotenv import load_dotenv
 import os
-
-
+import time
 
 def get_standings():
 
     load_dotenv()
 
+    # This wait seems necessary since we're using the free API and it throws an error if we don't use it.
+    time.sleep(5)
     today = date.today()
     # Sets today's date variables automatically // calls API key from .env
     season = str(today.year-1)
@@ -16,18 +17,14 @@ def get_standings():
     # code to get API data, syntax courtesy of Plotly
     url = 'http://api.sportradar.us/nhl/trial/v7/en/seasons/' + season + '/REG/standings.json?api_key=' + api_key
     r = requests.get(url)
-    data = r.json()
-    print('\n')
+    standings_data = r.json()
 
-    # print(data)
-
-    # Makes list of dictionaries st {team : win #}
+    # Makes list of lists st [team name, win #, loss #]
     standings = []
-    for conference in data['conferences']:
+    for conference in standings_data['conferences']:
         for division in conference['divisions']:
             for team in division['teams']:
-                standings.append({team['name']:{'wins':team['wins'],'losses':team['losses']}})
+                standings.append([team['name'],team['wins'],team['losses']])
 
-    print(standings)
     return standings
 
