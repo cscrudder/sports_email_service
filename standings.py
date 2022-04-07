@@ -22,7 +22,7 @@ def get_standings():
     r = requests.get(url)
     standings_data = r.json()
     #pprint(standings_data)
-    #print(standings_data["conferences"][0].keys())
+    #pprint(standings_data["conferences"][0].keys())
     #print(standings_data["conferences"][0]["divisions"][0].keys())
     #print(standings_data["conferences"][0]["divisions"][0]["teams"][0].keys())
     #print(len(standings_data["conferences"]))
@@ -30,58 +30,65 @@ def get_standings():
     # printing a clean list of standings
     # Eastern conference
 
-    eastern_teams = []
-    for x in standings_data["conferences"][1]["divisions"]:
-        for team in x["teams"]:
-            teams = []
-            teams.append(team["rank"]["conference"])
-            teams.append(team["name"])
-            teams.append(team["wins"])
-            teams.append(team["losses"])
-            teams.append(team["overtime_losses"])
-            eastern_teams.append(teams)
-    
-    eastern_teams = sorted(eastern_teams, key = lambda x: x[0])
-
-    
-    print("EASTERN CONFERENCE STANDINGS")
-    print(" ")
-    for item in eastern_teams:
-        print(str(item[0]) + ".", str(item[1]), "--", "Record:", str(item[2]) + "-" + str(item[3]) + "-" + str(item[4]))
 
     print(" ")
-    print("-----")
-    #print(eastern_teams)
+    # conference standings
+    for conference in range(len(standings_data["conferences"])):
 
+        conf_teams = []
+        for x in standings_data["conferences"][conference]["divisions"]:
+            for team in x["teams"]:
+                teams = []
+                teams.append(team["rank"]["conference"])
+                teams.append(team["market"])
+                teams.append(team["name"])
+                teams.append(team["wins"])
+                teams.append(team["losses"])
+                teams.append(team["overtime_losses"])
+                teams.append(team["points"])
+                conf_teams.append(teams)
+        
+        conf_teams = sorted(conf_teams, key = lambda x: x[0])
 
-    western_teams = []
-    for x in standings_data["conferences"][0]["divisions"]:
-        for team in x["teams"]:
-            teams = []
-            teams.append(team["rank"]["conference"])
-            teams.append(team["name"])
-            teams.append(team["wins"])
-            teams.append(team["losses"])
-            teams.append(team["overtime_losses"])
-            western_teams.append(teams)
-    
-    western_teams = sorted(western_teams, key = lambda x: x[0])
+        
+        print(standings_data["conferences"][conference]["alias"], "CONFERENCE STANDINGS")
+        print(" ")
+        for item in conf_teams:
+            print(str(item[0]) + ".", str(item[1]), str(item[2]), "|", "Record:", str(item[3]) + "-" 
+            + str(item[4]) + "-" + str(item[5]), "|", "Points:", str(item[6]))
 
-
-    #ordered_rankings = []
-    #for team in range(len(eastern_teams)):
-    #    if eastern_teams[team][0] == team+1:
-    #        ordered_rankings.append(eastern_teams[team])
-    
-    print("WESTERN CONFERENCE STANDINGS")
-    print(" ")
-    for item in western_teams:
-        print(str(item[0]) + ".", str(item[1]), "--", "Record:", str(item[2]) + "-" + str(item[3]) + "-" + str(item[4]))
-
-    #print(eastern_teams)
+        print(" ")
 
 
 
+    # division standings
+
+    for conference in range(len(standings_data["conferences"])):
+
+        
+        for division in range(len(standings_data["conferences"][conference]["divisions"])):
+            div_teams = []
+            for team in standings_data["conferences"][conference]["divisions"][division]["teams"]:
+                teams = []
+                teams.append(team["rank"]["division"])
+                teams.append(team["market"])
+                teams.append(team["name"])
+                teams.append(team["wins"])
+                teams.append(team["losses"])
+                teams.append(team["overtime_losses"])
+                teams.append(team["points"])
+                div_teams.append(teams)
+        
+            div_teams = sorted(div_teams, key = lambda x: x[0])
+
+        
+            print(standings_data["conferences"][conference]["divisions"][division]["alias"], "DIVISION STANDINGS")
+            print(" ")
+            for item in div_teams:
+                print(str(item[0]) + ".", str(item[1]), str(item[2]), "|", "Record:", str(item[3]) + "-" 
+                + str(item[4]) + "-" + str(item[5]), "|", "Points:", str(item[6]))
+
+            print(" ")
 
 
 
