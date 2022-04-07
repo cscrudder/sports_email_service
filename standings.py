@@ -30,6 +30,22 @@ def get_standings():
     # printing a clean list of standings
     # Eastern conference
 
+    return standings_data
+
+
+
+def nhl_conference_standings(standings_data):
+
+    """
+    This function requires input of a dictionary from the Sportsradar API with NHL league standings data.
+    The API can be accessed with the following URL (see below in python syntax):
+
+    'http://api.sportradar.us/nhl/trial/v7/en/seasons/' + season + '/REG/standings.json?api_key=' + api_key
+
+    In the above, the season part should be a year and the API key should be obtained by each developer.
+
+    When the data is returned from the API, store it in a variable as a dictionary and pass it into this function.
+    """
 
     print(" ")
     # conference standings
@@ -59,7 +75,18 @@ def get_standings():
 
         print(" ")
 
+def nhl_division_standings(standings_data):
 
+    """
+    This function requires input of a dictionary from the Sportsradar API with NHL league standings data.
+    The API can be accessed with the following URL (see below in python syntax):
+
+    'http://api.sportradar.us/nhl/trial/v7/en/seasons/' + season + '/REG/standings.json?api_key=' + api_key
+
+    In the above, the season part should be a year and the API key should be obtained by each developer.
+
+    When the data is returned from the API, store it in a variable as a dictionary and pass it into this function.
+    """
 
     # division standings
 
@@ -91,6 +118,10 @@ def get_standings():
             print(" ")
 
 
+standings = get_standings()
+
+nhl_conference_standings(standings)
+nhl_division_standings(standings)
 
 
 
@@ -98,19 +129,18 @@ def get_standings():
 
 
 
-
-    # Makes list of lists st [team name, win #, loss #]
-    standings = []
-    for conference in standings_data['conferences']:
-        for division in conference['divisions']:
-            for team in division['teams']:
-                standings.append([team['name'],team['wins'],team['losses']])
-
-    return standings
+    ## Makes list of lists st [team name, win #, loss #]
+    #standings = []
+    #for conference in standings_data['conferences']:
+    #    for division in conference['divisions']:
+    #        for team in division['teams']:
+    #            standings.append([team['name'],team['wins'],team['losses']])
+#
+    #return standings
 
 #pprint(get_standings())
 
-standings = get_standings()
+#standings = get_standings()
 #
 #for x in range(len(standings)):
 #    print(str(x+1)+".", standings[x][0])
