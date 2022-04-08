@@ -29,12 +29,15 @@ def load_schedule():
     #print(len(schedule_data["games"]))
     return schedule_data
 
+
+# still need to resolve how to show the time of the game, looks wonky af in the data
 def show_schedule(schedule_data):
 
     print(schedule_data["date"], "SCHEDULE:")
     for game in schedule_data["games"]:
         print(game["home"]["name"], "host the", game["away"]["name"])
         print(game["away"]["alias"], "@", game["home"]["alias"])
+        print("Scheduled for:", game["scheduled"])
         broadcasts = []
         for broadcast in game["broadcasts"]:
             broadcasts.append(broadcast["network"])
