@@ -2,7 +2,7 @@ from datetime import date
 import requests
 from dotenv import load_dotenv
 import os
-from standings import get_standings
+from app.standings import get_standings
 
 load_dotenv()
 
