@@ -26,7 +26,22 @@ def load_schedule():
     schedule_r = requests.get(schedule_url)
     schedule_data = schedule_r.json()
     print('\n')
+    #print(len(schedule_data["games"]))
     return schedule_data
+
+def show_schedule(schedule_data):
+
+    print(schedule_data["date"], "SCHEDULE:")
+    for game in schedule_data["games"]:
+        print(game["home"]["name"], "host the", game["away"]["name"])
+        print(game["away"]["alias"], "@", game["home"]["alias"])
+        broadcasts = []
+        for broadcast in game["broadcasts"]:
+            broadcasts.append(broadcast["network"])
+        print("Watch on:", *broadcasts, sep = ", ")
+        print(" ")
+        print("-----")
+        print(" ")
 
 
 
