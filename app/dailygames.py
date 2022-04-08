@@ -41,6 +41,8 @@ def show_schedule(schedule_data):
         broadcasts = []
         for broadcast in game["broadcasts"]:
             broadcasts.append(broadcast["network"])
+        
+        #there is a weird comma that shows up after "Watch on:" but I don't know how to get rid of it and still print the networks on the same line
         print("Watch on:", *broadcasts, sep = ", ")
         print(" ")
         print("-----")
