@@ -74,11 +74,11 @@ for game in schedule_data['games']:
 # Significant rivalries were cross-referenced with this list: https://www.rookieroad.com/ice-hockey/top-10-nhl-rivalries-of-all-time/
 # Rivalries were assigned a score of 1 (mild), 2 (moderate to significant), or 3 (extreme)
 rivalries = [['Ottawa Senators','Toronto Maple Leafs',2],['Buffalo Sabres','Toronto Maple Leafs',1],['Boston Bruins','Buffalo Sabres',2],\
-    ['Boston Bruins','Montreal Candiens',3],['Boston Bruins','Tampa Bay Lightning',1],['Boston Bruins','Toronto Maple Leafs',2],['Detroit Red Wings','Toronto Maple Leafs',3], \
+    ['Boston Bruins','Montreal Canadiens',3],['Boston Bruins','Tampa Bay Lightning',1],['Boston Bruins','Toronto Maple Leafs',2],['Detroit Red Wings','Toronto Maple Leafs',3], \
     ['Florida Panthers','Tampa Bay Lightning',2],['Montreal Canadiens','Ottawa Senators',2], ['Montreal Canadiens','Toronto Maple Leafs',3], \
     ['Montreal Canadiens','Toronto Maple Leafs',3],['New York Islanders','New York Rangers',2],['Philadelphia Flyers','Pittsburgh Penguins',1], \
     ['New Jersey Devils','New York Rangers',2],['New Jersey Devils','Philadelphia Flyers',2],['Columbus Blue Jackets','Pittsburgh Penguins',2], \
-    ['New York Islanders','Philadelphia Flyers',2],['New York Islanders','Pittsburg Penguins',2],['New York Islanders','Washington Capitals',1], \
+    ['New York Islanders','Philadelphia Flyers',2],['New York Islanders','Pittsburgh Penguins',2],['New York Islanders','Washington Capitals',1], \
     ['New York Rangers','Philadelphia Flyers',1],['New York Rangers','Pittsburgh Penguins',1],['New York Rangers','Washington Capitals',1], \
     ['Philadelphia Flyers','Washington Capitals',1],['Pittsburgh Penguins','Washington Capitals',3],['Boston Bruins','New York Rangers',1], \
     ['Boston Bruins','Philadelphia Flyers',2],['Boston Bruins','Pittsburgh Penguins',1],['Boston Bruins','Washington Capitals',1],\
