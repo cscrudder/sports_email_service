@@ -3,8 +3,8 @@ from pytz import timezone
 import requests
 from dotenv import load_dotenv
 import os
-from standings import get_standings
-from utilities import time_formatter
+from app.standings import get_standings
+from app.utilities import time_formatter
 load_dotenv()
 
 # sets today's date

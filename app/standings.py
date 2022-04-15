@@ -12,7 +12,7 @@ def get_standings():
     load_dotenv()
 
     # This wait seems necessary since we're using the free API and it throws an error if we don't use it.
-    time.sleep(5)
+    time.sleep(1.1)
     today = date.today()
     # Sets today's date variables automatically // calls API key from .env
     season = str(today.year-1)
