@@ -32,7 +32,7 @@ def get_standings():
 
 def get_schedule():
     load_dotenv()
-
+    time.sleep(1.1)
     # sets today's date
     today = date.today()
 
@@ -50,4 +50,5 @@ def get_schedule():
     schedule_data = schedule_r.json()
 
     return schedule_data
+
 
