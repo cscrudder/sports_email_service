@@ -1,16 +1,15 @@
 from datetime import date
-<<<<<<< HEAD
 from pytz import timezone
 import requests
 from dotenv import load_dotenv
 import os
-<<<<<<<< HEAD:app/dailygames.py
+
 from app.standings import get_standings
 from app.utilities import time_formatter
-========
+
 from standings import get_standings
 from utilities import time_formatter
->>>>>>>> main:dailygames.py
+
 load_dotenv()
 
 # sets today's date
@@ -93,8 +92,7 @@ rivalries = [['Ottawa Senators','Toronto Maple Leafs',2],['Buffalo Sabres','Toro
     ['Calgary Flames','Edmonton Oilers',2],['Calgary Flames','Vancouver Canucks',1],['Anaheim Ducks','Los Angeles Kings',1], \
     ['Los Angeles Kings','San Jose Sharks',1],['San Jose Sharks','Vegas Golden Knights',1],['Calgary Flames','Winnipeg Jets',2],\
     ['Edmonton Oilers','Winnipeg Jets',1],['Chicago Blackhawks','Detroit Red Wings',2],['Colorado Avalanche','Detroit Red Wings',2], \
-    ['Detroit Red Wings','Toronto Maple Leafs',3]]
-=======
+
 import requests
 from dotenv import load_dotenv
 import os
@@ -186,5 +184,4 @@ if __name__ == "__main__":
         print(broadcast_msg)
         
         print('')
->>>>>>> main
 
