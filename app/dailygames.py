@@ -83,7 +83,8 @@ if __name__ == "__main__":
                 broadcast_msg = broadcast_msg + ' and ' 
         print(broadcast_msg)
         
-        print('')
+
+       print('')
 
     # Rivalry daya came from Wikipedia list: https://en.wikipedia.org/wiki/National_Hockey_League_rivalries
     # Significant rivalries were cross-referenced with this list: https://www.rookieroad.com/ice-hockey/top-10-nhl-rivalries-of-all-time/
@@ -91,24 +92,6 @@ if __name__ == "__main__":
 
 
 
-
-    # # still need to resolve how to show the time of the game, looks wonky af in the data
-    # def show_schedule(schedule_data):
-
-    #     print(schedule_data["date"], "SCHEDULE:")
-    #     for game in schedule_data["games"]:
-    #         print(game["home"]["name"], "host the", game["away"]["name"])
-    #         print(game["away"]["alias"], "@", game["home"]["alias"])
-    #         print("Scheduled for:", game["scheduled"])
-    #         broadcasts = []
-    #         for broadcast in game["broadcasts"]:
-    #             broadcasts.append(broadcast["network"])
-            
-    #         #there is a weird comma that shows up after "Watch on:" but I don't know how to get rid of it and still print the networks on the same line
-    #         print("Watch on:", *broadcasts, sep = ", ")
-    #         print(" ")
-    #         print("-----")
-    #         print(" ")
 
 
 

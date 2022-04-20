@@ -20,6 +20,7 @@ def register():
   
     if request.method == "POST": # the form will send a POST
         print("FORM DATA:", dict(request.form))
+
         request_data = dict(request.form)
 
         if '@' in request_data['email'] and '.' in request_data['email'] and request_data['name'] != '':
