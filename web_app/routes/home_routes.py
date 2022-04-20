@@ -20,5 +20,11 @@ def register():
   
     if request.method == "POST": # the form will send a POST
         print("FORM DATA:", dict(request.form))
-        
         request_data = dict(request.form)
+
+        if '@' in request_data['email'] and '.' in request_data['email'] and request_data['name'] != '':
+            flash("You have been signed up for the NHL Daily Briefing!", "success")
+        else:
+            flash("Invalid input. Try again.", "danger")
+
+    return render_template("register.html")
