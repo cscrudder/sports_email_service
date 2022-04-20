@@ -92,12 +92,6 @@ def featured_game(user, schedule_data):
     # same exact logic as above, but it skips the part where it looks for the user's team
     elif user['affiliation'] == "League":
 
-        
-
-    elif user['affiliation'] == "League":
-
-        rivalry_score = 1
-
         rivalry_games = []
         featured_game = None
 
@@ -107,15 +101,9 @@ def featured_game(user, schedule_data):
             teams.append(game['home']['name'])
             for matchup in rivalries:
                 if (teams[0] in matchup) and (teams[1] in matchup):
-
                     rivalry_games.append(game)
         
         #print(rivalry_games)
-
-                    if matchup[2] > rivalry_score:
-                        rivalry_games.append(game)
-        
-        print(rivalry_games)
 
 
         if len(rivalry_games) == 1:
@@ -143,7 +131,7 @@ def featured_game(user, schedule_data):
                 
             if len(primetime_games) == 0:
 
-                featured_game = None
+                featured_game = schedule_data["games"][0]
 
             else:
                 featured_game = primetime_games[0]

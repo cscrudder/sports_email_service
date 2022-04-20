@@ -84,7 +84,7 @@ if __name__ == "__main__":
         print(broadcast_msg)
         
 
-       print('')
+    print('')
 
     # Rivalry daya came from Wikipedia list: https://en.wikipedia.org/wiki/National_Hockey_League_rivalries
     # Significant rivalries were cross-referenced with this list: https://www.rookieroad.com/ice-hockey/top-10-nhl-rivalries-of-all-time/
