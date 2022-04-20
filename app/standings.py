@@ -30,6 +30,7 @@ def get_standings():
     return standings_data
 
 
+standings_data = get_standings()
 
 def nhl_conference_standings(standings_data):
 

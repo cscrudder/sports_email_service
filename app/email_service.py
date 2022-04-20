@@ -33,7 +33,11 @@ def send_email(subject="Daily Hockey Report", html="<p>Hello World</p>", recipie
 
 
 if __name__ == "__main__":
-    example_subject = "Daily Hockey Report"
+
+    from datetime import date
+    today = date.today().strftime("%b %d %Y")
+
+    example_subject = "NHL Daily Briefing: " + today
 
     example_html = f"""
     This is where our hockey info would go.
