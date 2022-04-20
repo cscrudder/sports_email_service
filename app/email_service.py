@@ -31,7 +31,6 @@ def send_email(subject="Daily Hockey Report", html="<p>Hello World</p>", recipie
         print("OOPS", type(e), e)
         return None
 
-
 if __name__ == "__main__":
 
     from datetime import date
@@ -40,7 +39,6 @@ if __name__ == "__main__":
     example_subject = "NHL Daily Briefing: " + today
 
     example_html = f"""
-    This is where our hockey info would go.
     """
     send_email(example_subject, example_html)
 
