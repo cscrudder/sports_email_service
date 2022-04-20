@@ -4,26 +4,73 @@
 {% block content %}
 
     <h1>Register for the NHL Daily Briefing</h1>
-
     <form action="/register" method="POST">
 
-        <label>Your name:</label>
-        <input type="text" name="name" placeholder="hockey fan" value="hockey fan">
-        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Your first name</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="John">
+          </div>
 
-        <label>Your email address: </label>
-        <input type="text" name="email" placeholder="" value="">
-        <br>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Email address</label>
+            <input type="text" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+          </div>
 
-        <label>Your favorite team: </label>
-        <input type="text" name="affiliation" placeholder="" value="">
-        <br>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Your favorite team</label>
+            <select class="form-control" id="fav_team" name="affiliation">
+              <option>League</option>
+              <option>Colorado Avalanche</option>
+              <option>Calgary Flames</option>
+              <option>Minnesota Wild</option>
+              <option>St. Louis Blues</option>
+              <option>Edmonton Oilers</option>
+              <option>Nashville Predators</option>
+              <option>Los Angeles Kings</option>
+              <option>Dallas Stars</option>
+              <option>Vegas Golden Knights</option>
+              <option>Vancouver Canucks</option>
+              <option>Winnipeg Jets</option>
+              <option>Anaheim Ducks</option>
+              <option>San Jose Sharks</option>
+              <option>Chicago Blackhawks</option>
+              <option>Seattle Kraken</option>
+              <option>Arizona Coyotes</option>
+              <option>Florida Panthers</option>
+              <option>Toronto Maple Leafs</option>
+              <option>Carolina Hurricanes</option>
+              <option>New York Rangers</option>
+              <option>Tampa Bay Lightning</option>
+              <option>Boston Bruins</option>
+              <option>Pittsburgh Penguins</option>
+              <option>Washington Capitals</option>
+              <option>New York Islanders</option>
+              <option>Columbus Blue Jackets</option>
+              <option>Detroit Red Wings</option>
+              <option>Buffalo Sabres</option>
+              <option>Ottawa Senators</option>
+              <option>New Jersey Devils</option>
+              <option>Philadelphia Flyers</option>
+              <option>Montreal Canadiens</option>
+            </select>
+            <small id="passwordHelpInline" class="text-muted">
+                Select 'League' if you do not have a favorite team.
+              </small>
+          </div>
 
-        <label>Your time zone: </label>
-        <input type="text" name="time_zone" placeholder="" value="">
-        <br>
 
-        <button>Submit</button>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Your time zone:</label>
+            <select class="form-control" id="time_zone" name="time_zone">
+              <option>ET</option>
+              <option>CT</option>
+              <option>MT</option>
+              <option>PT</option>
+              <option>AKT</option>
+            </select>
+          </div>
+          <br>
+        <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
 
 {% endblock %}
