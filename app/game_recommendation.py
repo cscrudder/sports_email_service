@@ -30,11 +30,13 @@ def featured_game(user, schedule_data):
         done = False
 
         # loop to test if the user's team is playing that day
+
         for game in schedule_data['games']:
             # prints teams playing
             #print(' - ' + game['away']['name'] + ' at ' + game['home']['name'] + ' (' + time_formatter(game['scheduled'], timezone) + ')')
             if game['away']['name'] == user['affiliation'] or game['home']['name'] == user['affiliation']:
                 featured_game = game
+
                 done = True
         
         # if not, look for other games that could be of interest
@@ -91,6 +93,11 @@ def featured_game(user, schedule_data):
     elif user['affiliation'] == "League":
 
         
+
+    elif user['affiliation'] == "League":
+
+        rivalry_score = 1
+
         rivalry_games = []
         featured_game = None
 
@@ -100,9 +107,16 @@ def featured_game(user, schedule_data):
             teams.append(game['home']['name'])
             for matchup in rivalries:
                 if (teams[0] in matchup) and (teams[1] in matchup):
+
                     rivalry_games.append(game)
         
         #print(rivalry_games)
+
+                    if matchup[2] > rivalry_score:
+                        rivalry_games.append(game)
+        
+        print(rivalry_games)
+
 
         if len(rivalry_games) == 1:
             featured_game = game
@@ -128,7 +142,9 @@ def featured_game(user, schedule_data):
                     primetime_games.append(match)
                 
             if len(primetime_games) == 0:
+
                 featured_game = None
+
             else:
                 featured_game = primetime_games[0]
 
