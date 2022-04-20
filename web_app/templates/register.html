@@ -1,8 +1,29 @@
 {% extends "bootstrap_layout.html" %}
-{% set active_page = "hello" %}
+{% set active_page = "home" %}
 
 {% block content %}
 
-    <p>This is a paragraph on the "register" page.</p>
+    <h1>Register for the NHL Daily Briefing</h1>
+
+    <form action="/register" method="POST">
+
+        <label>Your name:</label>
+        <input type="text" name="name" placeholder="hockey fan" value="hockey fan">
+        <br>
+
+        <label>Your email address: </label>
+        <input type="text" name="email" placeholder="" value="">
+        <br>
+
+        <label>Your favorite team: </label>
+        <input type="text" name="affiliation" placeholder="" value="">
+        <br>
+
+        <label>Your time zone: </label>
+        <input type="text" name="time_zone" placeholder="" value="">
+        <br>
+
+        <button>Submit</button>
+    </form>
 
 {% endblock %}
