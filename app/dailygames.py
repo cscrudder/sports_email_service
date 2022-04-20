@@ -1,4 +1,3 @@
-from pytz import timezone
 from dotenv import load_dotenv
 import os
 
