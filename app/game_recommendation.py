@@ -26,15 +26,78 @@ def featured_game(user, schedule_data):
     
     
     if user['affiliation'] != "League":
+
+        done = False
+
+        # loop to test if the user's team is playing that day
+
         for game in schedule_data['games']:
             # prints teams playing
             #print(' - ' + game['away']['name'] + ' at ' + game['home']['name'] + ' (' + time_formatter(game['scheduled'], timezone) + ')')
             if game['away']['name'] == user['affiliation'] or game['home']['name'] == user['affiliation']:
                 featured_game = game
 
+                done = True
+        
+        # if not, look for other games that could be of interest
+        if done == False:
+            rivalry_games = []
+            featured_game = None
+
+            #looking for rivalry games
+            for game in schedule_data["games"]:
+                teams = []
+                teams.append(game['away']['name'])
+                teams.append(game['home']['name'])
+                for matchup in rivalries:
+                    if (teams[0] in matchup) and (teams[1] in matchup):
+                        rivalry_games.append(game)
+            
+            #print(rivalry_games)
+
+            if len(rivalry_games) == 1:
+                featured_game = game
+            
+            # if there is more than one rivalry game, look for if any of them are in primetime
+            elif len(rivalry_games) > 1:
+                primetime_games = []
+                for match in rivalry_games:
+                    gametime = time_formatter(match["scheduled"])
+                    #print(gametime[0])
+                    if int(gametime[0]) == 7 or int(gametime[0]) == 8 or int(gametime[0]) == 9:
+                        primetime_games.append(match)
+                
+                # if none are, choose the first rivalry game.  If one is, choose that
+                if len(primetime_games) == 0:
+                    featured_game = rivalry_games[0]
+                else:
+                    featured_game = primetime_games[0]
+            
+            # if there are no rivalry games, look for primetime games
+            elif len(rivalry_games) == 0:
+                primetime_games = []
+                for match in schedule_data["games"]:
+                    gametime = time_formatter(match["scheduled"])
+                    #print(gametime[0])
+                    if int(gametime[0]) == 7 or int(gametime[0]) == 8 or int(gametime[0]) == 9:
+                        primetime_games.append(match)
+
+                # in the absence of primetime games, there are no featured games that day   
+                if len(primetime_games) == 0:
+                    featured_game = None
+                else:
+                    featured_game = primetime_games[0]
+
+
+    # same exact logic as above, but it skips the part where it looks for the user's team
+    elif user['affiliation'] == "League":
+
+        
+
     elif user['affiliation'] == "League":
 
         rivalry_score = 1
+
         rivalry_games = []
         featured_game = None
 
@@ -44,10 +107,16 @@ def featured_game(user, schedule_data):
             teams.append(game['home']['name'])
             for matchup in rivalries:
                 if (teams[0] in matchup) and (teams[1] in matchup):
+
+                    rivalry_games.append(game)
+        
+        #print(rivalry_games)
+
                     if matchup[2] > rivalry_score:
                         rivalry_games.append(game)
         
         print(rivalry_games)
+
 
         if len(rivalry_games) == 1:
             featured_game = game
@@ -73,7 +142,9 @@ def featured_game(user, schedule_data):
                     primetime_games.append(match)
                 
             if len(primetime_games) == 0:
-                featured_game = "There is no featured game today."
+
+                featured_game = None
+
             else:
                 featured_game = primetime_games[0]
 
