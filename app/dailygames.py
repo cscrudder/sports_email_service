@@ -20,24 +20,11 @@ rivalries = [['Ottawa Senators','Toronto Maple Leafs',2],['Buffalo Sabres','Toro
     ['Los Angeles Kings','San Jose Sharks',1],['San Jose Sharks','Vegas Golden Knights',1],['Calgary Flames','Winnipeg Jets',2],\
     ['Edmonton Oilers','Winnipeg Jets',1],['Chicago Blackhawks','Detroit Red Wings',2],['Colorado Avalanche','Detroit Red Wings',2], \
     ['Detroit Red Wings','Toronto Maple Leafs',3]]
+    # Rivalry daya came from Wikipedia list: https://en.wikipedia.org/wiki/National_Hockey_League_rivalries
+    # Significant rivalries were cross-referenced with this list: https://www.rookieroad.com/ice-hockey/top-10-nhl-rivalries-of-all-time/
+    # Rivalries were assigned a score of 1 (mild), 2 (moderate to significant), or 3 (extreme)
 
-
-
-
-
-
-
-
-
-if __name__ == "__main__":
-
-
-    # imports standings
-    standings_data = get_standings()
-
-    # imports schedule
-    schedule_data = get_schedule()
-
+def game_formatter(schedule_data):
 
     # checks if timezone env is set, if not, defaults to ET
     load_dotenv()
@@ -45,6 +32,8 @@ if __name__ == "__main__":
         timezone = os.getenv('TIMEZONE')
     else:
         timezone = 'ET'
+
+    schedule_html = ''
 
     # Loops through days' games and prints home and away teams
     for game in schedule_data['games']:
@@ -82,13 +71,22 @@ if __name__ == "__main__":
             if i == (len(game['broadcasts'])-2):
                 broadcast_msg = broadcast_msg + ' and ' 
         print(broadcast_msg)
+
+if __name__ == "__main__":
+
+
+    # imports standings
+    standings_data = get_standings()
+
+    # imports schedule
+    schedule_data = get_schedule()
+
+    game_formatter(schedule_data)
+
+
         
 
-       print('')
 
-    # Rivalry daya came from Wikipedia list: https://en.wikipedia.org/wiki/National_Hockey_League_rivalries
-    # Significant rivalries were cross-referenced with this list: https://www.rookieroad.com/ice-hockey/top-10-nhl-rivalries-of-all-time/
-    # Rivalries were assigned a score of 1 (mild), 2 (moderate to significant), or 3 (extreme)
 
 
 

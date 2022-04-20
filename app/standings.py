@@ -30,10 +30,10 @@ def get_standings():
     return standings_data
 
 
-standings_data = get_standings()
+
 
 def nhl_conference_standings(standings_data):
-
+    
     """
     This function requires input of a dictionary from the Sportsradar API with NHL league standings data.
     The API can be accessed with the following URL (see below in python syntax):
@@ -45,7 +45,8 @@ def nhl_conference_standings(standings_data):
     When the data is returned from the API, store it in a variable as a dictionary and pass it into this function.
     """
 
-    print(" ")
+    conf_html = ''
+
     # conference standings
     for conference in range(len(standings_data["conferences"])):
 
@@ -65,13 +66,14 @@ def nhl_conference_standings(standings_data):
         conf_teams = sorted(conf_teams, key = lambda x: x[0])
 
         
-        print(standings_data["conferences"][conference]["alias"], "CONFERENCE STANDINGS")
-        print(" ")
+        conf_html += '<h1>' + standings_data["conferences"][conference]["alias"].title() + " Conference Standings</h1>"
+        conf_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>Ties</th><th>Points</th></tr>'
         for item in conf_teams:
-            print(str(item[0]) + ".", str(item[1]), str(item[2]), "|", "Record:", str(item[3]) + "-" 
-            + str(item[4]) + "-" + str(item[5]), "|", "Points:", str(item[6]))
+            conf_html += '<tr><td>' + str(item[0]) + '</td>' + '<td>' + str(item[1]) + ' ' + str(item[2]) + '</td>' + '<td>' + str(item[3]) + '</td>' + '<td>' + str(item[4]) + '</td>' + '<td>' + str(item[5]) + '</td>' + '<td>' + str(item[6]) + '</td></tr>'
+        conf_html += '</table>'
 
-        print(" ")
+    return conf_html        
+
 
 def nhl_division_standings(standings_data):
 
@@ -87,6 +89,8 @@ def nhl_division_standings(standings_data):
     """
 
     # division standings
+
+    div_html = ''
 
     for conference in range(len(standings_data["conferences"])):
 
@@ -106,20 +110,18 @@ def nhl_division_standings(standings_data):
         
             div_teams = sorted(div_teams, key = lambda x: x[0])
 
-        
-            print(standings_data["conferences"][conference]["divisions"][division]["alias"], "DIVISION STANDINGS")
-            print(" ")
+            div_html += '<h1>' + standings_data["conferences"][conference]["divisions"][division]["alias"].title() + ' Division Standings</h1>'
+            div_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>Ties</th><th>Points</th></tr>'
             for item in div_teams:
-                print(str(item[0]) + ".", str(item[1]), str(item[2]), "|", "Record:", str(item[3]) + "-" 
-                + str(item[4]) + "-" + str(item[5]), "|", "Points:", str(item[6]))
+                div_html += '<tr><td>' + str(item[0]) + '</td>' + '<td>' + str(item[1]) + ' ' + str(item[2]) + '</td>' + '<td>' + str(item[3]) + '</td>' + '<td>' + str(item[4]) + '</td>' + '<td>' + str(item[5]) + '</td>' + '<td>' + str(item[6]) + '</td></tr>'
+            div_html += '</table>'
 
-            print(" ")
-
+    return div_html
 
 if __name__ == "__main__":
 
     standings = get_standings()
 
-    nhl_conference_standings(standings)
-    nhl_division_standings(standings)
+    print(nhl_conference_standings(standings))
+    # print(nhl_division_standings(standings))
 
