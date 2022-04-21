@@ -21,5 +21,9 @@ pandas
 # web app
 flask
 
+# google sheet
+gspread
+oauth2client
+
 # heroku server
 gunicorn

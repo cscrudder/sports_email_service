@@ -15,8 +15,6 @@ SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 RECIPIENT_EMAIL_ADDRESS = os.getenv("RECIPIENT_EMAIL_ADDRESS")
 
 
-users = [{"name":"Maddox","email":"cms447@georgetown.edu","affiliation":'Boston Bruins','time_zone':'ET'},{"name":"Colton","email":"cms447@georgetown.edu","affiliation":'Dallas Stars','time_zone':'AKT'},{"name":"Jack","email":"cms447@georgetown.edu","affiliation":'Buffalo Sabres','time_zone':'CT'}]
-
 # API REQUESTS
 def get_standings():
 
@@ -382,7 +380,6 @@ def game_formatter(schedule_data, timezone='ET'):
 # schedule['games'] to print the day's schedule
 # print(game_formatter(featured_game(user, schedule))) to print the recommended game
 
-
 # FUNCTION THAT COMBINES ALL PREVIOUS FUNCTIONS TO PRODUCE 1 HTML MESSAGE
 def html_message(user_data,standings_data,schedule_data):
     html_message = ''
@@ -415,21 +412,42 @@ def send_email(subject="Daily Hockey Report", html="<p>Hello World</p>", recipie
         print("OOPS", type(e), e)
         return None
 
+# FUNCTION THAT PULLS USER DATA FROM GOOGLE SHEET
+def get_user_data(): 
+    # syntax courtesy of: https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
+
+
+    # use creds to create a client to interact with the Google Drive API
+    scope = ['https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
+
+
+    client = gspread.authorize(creds)
+
+    # # Find a workbook by name and open the first sheet
+    # # Make sure you use the right name here.
+    sheet = client.open("nhl_daily_email_data").sheet1
+
+    # # Extract and print all of the values
+    users = sheet.get_all_records()
+    return users
 
 if __name__ == "__main__":
     standings = get_standings()
     schedule = get_schedule()
-    user = {"name":"Colton","email":"cms447@georgetown.edu","affiliation":'Boston Bruins','time_zone':'ET'}
     # print(game_formatter(featured_game(user, schedule)))
     # print(nhl_conference_standings(standings))
     # print(nhl_division_standings(standings))
     # print(game_formatter(schedule['games']))
-    print(html_message(user,standings,schedule))
+    # print(html_message(user,standings,schedule))
+    users = get_user_data()
 
-
-    # from datetime import date
-    # today = date.today().strftime("%b %d %Y")
-    # email_subject = "NHL Daily Briefing: " + today
+    from datetime import date
+    today = date.today().strftime("%b %d %Y")
+    email_subject = "NHL Daily Briefing: " + today
 
 
     for user in users:
