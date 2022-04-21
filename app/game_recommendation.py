@@ -92,10 +92,6 @@ def featured_game(user, schedule_data):
     # same exact logic as above, but it skips the part where it looks for the user's team
     elif user['affiliation'] == "League":
 
-        
-
-    elif user['affiliation'] == "League":
-
         rivalry_score = 1
 
         rivalry_games = []
@@ -115,7 +111,7 @@ def featured_game(user, schedule_data):
                     if matchup[2] > rivalry_score:
                         rivalry_games.append(game)
         
-        print(rivalry_games)
+        # print(rivalry_games)
 
 
         if len(rivalry_games) == 1:
@@ -148,37 +144,19 @@ def featured_game(user, schedule_data):
             else:
                 featured_game = primetime_games[0]
 
-   
-    return featured_game
+    return_list = []
+    return_list.append(featured_game)
+    return return_list
 
 
+if __name__ == "__main__":
+    from app.dailygames import game_formatter
+
+    user = {"name":"Jack","email":"jack.feingold1@gmail.com","affiliation":"League"}
+    schedule_data = get_schedule()
+
+    print(game_formatter(featured_game(user, schedule_data)))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-#sched = get_schedule()
-#
-#times = []
-#
-#for game in sched["games"]:
-#
-#    times.append(time_formatter(game["scheduled"]))
-#
-#print(times[0][0])
-
-
-for user in users:
-
-    pprint(featured_game(user,get_schedule()))
 
 
