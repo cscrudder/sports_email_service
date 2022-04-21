@@ -31,11 +31,21 @@ pip install -r requirements.txt
 
 ## Configuration
 
+### Sendgrid
+
 Follow these [SendGrid setup instructions](https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/packages/sendgrid.md#setup) to sign up for a SendGrid account, configure your account's email address (i.e. `SENDER_EMAIL_ADDRESS`), and obtain an API key (i.e. `SENDGRID_API_KEY`).
+
+### Sportradar
 
 To configure the sportradar API, go to [sportradar API Registration](https://developer.sportradar.com/member/register). Register for a "NHL Trial: Trail" API Key.
 
 Create a new file called ".env" in the root directory of this repo, and paste the following contents inside, using your own values as appropriate:
+
+### Google
+
+To be able to send webpage user submissions to a Google Sheet then pull them to send daily emails, create a file called 'client_secret.json' in the root directory, following the instructions [here](https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html).
+
+You will need to make a Google Sheet called "nhl_daily_email_data" from your Google Account for send and recieve user data from.
 
 ```sh
 # these are example contents for the ".env" file:
@@ -50,14 +60,9 @@ TIMEZONE='ET'
 ```
 
 ## Usage
-To find which games are happening today:
+To send all registered users a briefing:
 ```sh
-python -m app.dailygames
-```
-
-To get conference and division standings:
-```sh
-python -m app.standings
+python -m app.functions
 ```
 
 ## Run Flask
