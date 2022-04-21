@@ -1,12 +1,23 @@
 
 from datetime import date
+import sched
 import requests
 from dotenv import load_dotenv
 import os
 import time
 import pytz, dateutil.parser
+import os
+from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
-user = {"name":"Jack","email":"jack.feingold1@gmail.com","affiliation":"League"}
+load_dotenv()
+
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
+RECIPIENT_EMAIL_ADDRESS = os.getenv("RECIPIENT_EMAIL_ADDRESS")
+
+users = [{"name":"Maddox","email":"cms447@georgetown.edu","affiliation":'Boston Bruins','time_zone':'ET'},{"name":"Colton","email":"cms447@georgetown.edu","affiliation":'Dallas Stars','time_zone':'AKT'},{"name":"Jack","email":"cms447@georgetown.edu","affiliation":'Buffalo Sabres','time_zone':'CT'}]
 
 # API REQUESTS
 def get_standings():
@@ -81,7 +92,8 @@ def featured_game(user, schedule_data):
 
     # Loops through days' games and prints home and away teams
     
-    
+
+
     if user['affiliation'] != "League":
 
         done = False
@@ -90,10 +102,8 @@ def featured_game(user, schedule_data):
 
         for game in schedule_data['games']:
             # prints teams playing
-            #print(' - ' + game['away']['name'] + ' at ' + game['home']['name'] + ' (' + time_formatter(game['scheduled'], timezone) + ')')
-            if game['away']['name'] == user['affiliation'] or game['home']['name'] == user['affiliation']:
+            if game['away']['name'].strip() == user['affiliation'].strip() or game['home']['name'].strip() == user['affiliation'].strip():
                 featured_game = game
-
                 done = True
         
         # if not, look for other games that could be of interest
@@ -324,16 +334,9 @@ def time_formatter(time, timezone="ET"):
             return (str(hour) + ':' + str(minutes) + 'AM' + ' ' + timezone) 
 
 # CONVERTS GAME DATA TO HTML
-def game_formatter(schedule_data):
+def game_formatter(schedule_data, timezone='ET'):
 
-    # checks if timezone env is set, if not, defaults to ET
-    load_dotenv()
-    if os.getenv('TIMEZONE') is not None:
-        timezone = os.getenv('TIMEZONE')
-    else:
-        timezone = 'ET'
-
-    schedule_html = '<ul>'
+    schedule_html = ''
 
     # Loops through days' games and prints home and away teams
     
@@ -381,14 +384,38 @@ def game_formatter(schedule_data):
 # schedule['games'] to print the day's schedule
 # print(game_formatter(featured_game(user, schedule))) to print the recommended game
 
+
 # FUNCTION THAT COMBINES ALL PREVIOUS FUNCTIONS TO PRODUCE 1 HTML MESSAGE
 def html_message(user_data,standings_data,schedule_data):
     html_message = ''
     html_message += '<h3>Hey ' + user_data['name'] + ',</h3><p>Here is your daily update!</b>'
-    html_message += "<h1>Today's Recommended Game:</h1>" + game_formatter(featured_game(user_data, schedule_data))
-    html_message += "<h1>Today's Schedule:</h1>" + game_formatter(schedule_data['games'])
+    html_message += "<h1>Today's Recommended Game:</h1>" + game_formatter(featured_game(user_data, schedule_data),user_data['time_zone'])
+    html_message += "<h1>Today's Schedule:</h1>" + game_formatter(schedule_data['games'],user_data['time_zone'])
     html_message += "<h1>League Standings:</h1>" + nhl_division_standings(standings_data) + nhl_conference_standings(standings_data)
     return html_message
+
+# FUNCTION THAT SENDS EMAILS
+def send_email(subject="Daily Hockey Report", html="<p>Hello World</p>", recipient_address=RECIPIENT_EMAIL_ADDRESS):
+    """
+    Sends an email with the specified subject and html contents to the specified recipient,
+
+    If recipient is not specified, sends to the admin's sender address by default.
+    """
+        
+    client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+    print("CLIENT:", type(client))
+    print("SUBJECT:", subject)
+    #print("HTML:", html)
+
+    message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails=recipient_address, subject=subject, html_content=html)
+    try:
+        response = client.send(message)
+        print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
+        print(response.status_code) #> 202 indicates SUCCESS
+        return response
+    except Exception as e:
+        print("OOPS", type(e), e)
+        return None
 
 
 if __name__ == "__main__":
@@ -398,8 +425,15 @@ if __name__ == "__main__":
     # print(nhl_conference_standings(standings))
     # print(nhl_division_standings(standings))
     # print(game_formatter(schedule['games']))
-    print(html_message(user,standings,schedule))
+    # print(html_message(user,standings,schedule))
 
+
+    from datetime import date
+    today = date.today().strftime("%b %d %Y")
+    email_subject = "NHL Daily Briefing: " + today
+
+    for user in users:
+        send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
 
 
 
