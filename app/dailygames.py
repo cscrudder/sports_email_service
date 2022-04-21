@@ -33,12 +33,12 @@ def game_formatter(schedule_data):
     else:
         timezone = 'ET'
 
-    schedule_html = ''
+    schedule_html = '<ul>'
 
     # Loops through days' games and prints home and away teams
     for game in schedule_data['games']:
         # prints teams playing
-        print(' - ' + game['away']['name'] + ' at ' + game['home']['name'] + ' (' + time_formatter(game['scheduled'], timezone) + ')')
+        schedule_html += '<li><b>' + game['away']['name'] + ' at ' + game['home']['name'] + '</b> (' + time_formatter(game['scheduled'], timezone) + ')'
 
         # Makes list of lists st [team name, win #, loss #]
         standings = []
@@ -51,16 +51,19 @@ def game_formatter(schedule_data):
         for i in range(len(standings)):
             if standings[i][0] in game['away']['name']: #away team
                 # each team has this [team name, win #, loss #] in standings
-                record_msg = '   - Records: ' + standings[i][0] + ' (' + str(standings[i][1]) + 'W-' + str(standings[i][2]) + 'L) | '
+                schedule_html += '<ul style="list-style-type: circle; padding-bottom: 0;">'
+                schedule_html += '<li style="margin-left:em">' + 'Records: ' + standings[i][0] + ' (' + str(standings[i][1]) + 'W-' + str(standings[i][2]) + 'L) | ' 
+
         for i in range(len(standings)):
             if standings[i][0] in game['home']['name']: #home team
                 # each team has this [team name, win #, loss #] in standings
                 # adds home team to away team standings
-                record_msg = record_msg + standings[i][0] + ' (' + str(standings[i][1]) + 'W-' + str(standings[i][2]) + 'L)'
-        print(record_msg)   
+                # record_msg = record_msg + standings[i][0] + ' (' + str(standings[i][1]) + 'W-' + str(standings[i][2]) + 'L)'
+                schedule_html += standings[i][0] + ' (' + str(standings[i][1]) + 'W-' + str(standings[i][2]) + 'L)' + '</li>'
+        # print(record_msg)   
     
         # prints info about the boradcast
-        broadcast_msg = '   - Broadcasts: '
+        broadcast_msg = 'Broadcasts: '
         for i in range(len(game['broadcasts'])):
             broadcast_msg = broadcast_msg + (game['broadcasts'][i]['network'])
             # if statements make sure to format the list correctly
@@ -70,7 +73,11 @@ def game_formatter(schedule_data):
                 broadcast_msg = broadcast_msg + ', '
             if i == (len(game['broadcasts'])-2):
                 broadcast_msg = broadcast_msg + ' and ' 
-        print(broadcast_msg)
+        schedule_html += '<li style="margin-left:em">' + broadcast_msg + '</li></ul></li>'
+    schedule_html += '</ul>'
+    print(schedule_html)
+    print('dog')
+    print('dog')
 
 if __name__ == "__main__":
 
