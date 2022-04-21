@@ -33,15 +33,16 @@ def game_formatter(schedule_data):
     else:
         timezone = 'ET'
 
-
     schedule_html = '<ul>'
 
     # Loops through days' games and prints home and away teams
-    for game in schedule_data['games']:
+    
+    for game in schedule_data:
         # prints teams playing
         schedule_html += '<li><b>' + game['away']['name'] + ' at ' + game['home']['name'] + '</b> (' + time_formatter(game['scheduled'], timezone) + ')'
 
         # Makes list of lists st [team name, win #, loss #]
+        standings_data = get_standings()
         standings = []
         for conference in standings_data['conferences']:
             for division in conference['divisions']:
@@ -74,11 +75,9 @@ def game_formatter(schedule_data):
                 broadcast_msg = broadcast_msg + ', '
             if i == (len(game['broadcasts'])-2):
                 broadcast_msg = broadcast_msg + ' and ' 
-
         schedule_html += '<li style="margin-left:em">' + broadcast_msg + '</li></ul></li>'
     schedule_html += '</ul>'
     return schedule_html
-
 
 if __name__ == "__main__":
 
@@ -89,7 +88,7 @@ if __name__ == "__main__":
     # imports schedule
     schedule_data = get_schedule()
 
-    game_formatter(schedule_data)
+    game_formatter(schedule_data['games'])
 
 
         

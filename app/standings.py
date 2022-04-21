@@ -122,6 +122,6 @@ if __name__ == "__main__":
 
     standings = get_standings()
 
-    print(nhl_conference_standings(standings))
-    # print(nhl_division_standings(standings))
+    nhl_conference_standings(standings)
+    nhl_division_standings(standings)
 
