@@ -421,17 +421,19 @@ def send_email(subject="Daily Hockey Report", html="<p>Hello World</p>", recipie
 if __name__ == "__main__":
     standings = get_standings()
     schedule = get_schedule()
+    user = {"name":"Colton","email":"cms447@georgetown.edu","affiliation":'Boston Bruins','time_zone':'ET'}
     # print(game_formatter(featured_game(user, schedule)))
     # print(nhl_conference_standings(standings))
     # print(nhl_division_standings(standings))
     # print(game_formatter(schedule['games']))
-    # print(html_message(user,standings,schedule))
+    print(html_message(user,standings,schedule))
 
 
-    from datetime import date
-    today = date.today().strftime("%b %d %Y")
-    email_subject = "NHL Daily Briefing: " + today
+    # from datetime import date
+    # today = date.today().strftime("%b %d %Y")
+    # email_subject = "NHL Daily Briefing: " + today
 
+<<<<<<< Updated upstream
     for user in users:
         send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
 
@@ -441,3 +443,7 @@ if __name__ == "__main__":
 
 
 
+=======
+    # for user in users:
+    #     send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
+>>>>>>> Stashed changes
