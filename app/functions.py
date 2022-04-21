@@ -1,13 +1,9 @@
-
 from datetime import date
-import sched
 import requests
 from dotenv import load_dotenv
 import os
 import time
 import pytz, dateutil.parser
-import os
-from dotenv import load_dotenv
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -384,7 +380,6 @@ def game_formatter(schedule_data, timezone='ET'):
 # schedule['games'] to print the day's schedule
 # print(game_formatter(featured_game(user, schedule))) to print the recommended game
 
-
 # FUNCTION THAT COMBINES ALL PREVIOUS FUNCTIONS TO PRODUCE 1 HTML MESSAGE
 def html_message(user_data,standings_data,schedule_data):
     html_message = ''
@@ -434,10 +429,3 @@ if __name__ == "__main__":
 
     for user in users:
         send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
-
-
-
-
-
-
-
