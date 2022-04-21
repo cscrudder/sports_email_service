@@ -1,4 +1,5 @@
 from datetime import date
+import sched
 import requests
 from dotenv import load_dotenv
 import os
@@ -12,6 +13,7 @@ load_dotenv()
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 RECIPIENT_EMAIL_ADDRESS = os.getenv("RECIPIENT_EMAIL_ADDRESS")
+
 
 users = [{"name":"Maddox","email":"cms447@georgetown.edu","affiliation":'Boston Bruins','time_zone':'ET'},{"name":"Colton","email":"cms447@georgetown.edu","affiliation":'Dallas Stars','time_zone':'AKT'},{"name":"Jack","email":"cms447@georgetown.edu","affiliation":'Buffalo Sabres','time_zone':'CT'}]
 
@@ -379,6 +381,7 @@ def game_formatter(schedule_data, timezone='ET'):
     return schedule_html
 # schedule['games'] to print the day's schedule
 # print(game_formatter(featured_game(user, schedule))) to print the recommended game
+
 
 # FUNCTION THAT COMBINES ALL PREVIOUS FUNCTIONS TO PRODUCE 1 HTML MESSAGE
 def html_message(user_data,standings_data,schedule_data):
