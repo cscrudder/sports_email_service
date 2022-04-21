@@ -435,6 +435,7 @@ def get_user_data():
     users = sheet.get_all_records()
     return users
 
+
 if __name__ == "__main__":
     standings = get_standings()
     schedule = get_schedule()
@@ -443,6 +444,7 @@ if __name__ == "__main__":
     # print(nhl_division_standings(standings))
     # print(game_formatter(schedule['games']))
     # print(html_message(user,standings,schedule))
+
     users = get_user_data()
 
     from datetime import date
@@ -452,4 +454,5 @@ if __name__ == "__main__":
 
     for user in users:
         send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
+
 
