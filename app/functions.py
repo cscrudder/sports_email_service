@@ -1,4 +1,3 @@
-
 from datetime import date
 import sched
 import requests
@@ -6,8 +5,6 @@ from dotenv import load_dotenv
 import os
 import time
 import pytz, dateutil.parser
-import os
-from dotenv import load_dotenv
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -16,6 +13,7 @@ load_dotenv()
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 RECIPIENT_EMAIL_ADDRESS = os.getenv("RECIPIENT_EMAIL_ADDRESS")
+
 
 users = [{"name":"Maddox","email":"cms447@georgetown.edu","affiliation":'Boston Bruins','time_zone':'ET'},{"name":"Colton","email":"cms447@georgetown.edu","affiliation":'Dallas Stars','time_zone':'AKT'},{"name":"Jack","email":"cms447@georgetown.edu","affiliation":'Buffalo Sabres','time_zone':'CT'}]
 
@@ -434,10 +432,3 @@ if __name__ == "__main__":
 
     for user in users:
         send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
-
-
-
-
-
-
-
