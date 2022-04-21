@@ -249,7 +249,7 @@ def nhl_conference_standings(standings_data):
 
         
         conf_html += '<h3>' + standings_data["conferences"][conference]["alias"].title() + " Conference Standings</h3>"
-        conf_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>Ties</th><th>Points</th></tr>'
+        conf_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Loss</th><th>Points</th></tr>'
         for item in conf_teams:
             conf_html += '<tr><td>' + str(item[0]) + '</td>' + '<td>' + str(item[1]) + ' ' + str(item[2]) + '</td>' + '<td>' + str(item[3]) + '</td>' + '<td>' + str(item[4]) + '</td>' + '<td>' + str(item[5]) + '</td>' + '<td>' + str(item[6]) + '</td></tr>'
         conf_html += '</table>'
@@ -292,7 +292,7 @@ def nhl_division_standings(standings_data):
             div_teams = sorted(div_teams, key = lambda x: x[0])
 
             div_html += '<h3>' + standings_data["conferences"][conference]["divisions"][division]["alias"].title() + ' Division Standings</h3>'
-            div_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>Ties</th><th>Points</th></tr>'
+            div_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Loss</th><th>Points</th></tr>'
             for item in div_teams:
                 div_html += '<tr><td>' + str(item[0]) + '</td>' + '<td>' + str(item[1]) + ' ' + str(item[2]) + '</td>' + '<td>' + str(item[3]) + '</td>' + '<td>' + str(item[4]) + '</td>' + '<td>' + str(item[5]) + '</td>' + '<td>' + str(item[6]) + '</td></tr>'
             div_html += '</table>'
