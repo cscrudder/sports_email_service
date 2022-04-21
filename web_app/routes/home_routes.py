@@ -1,7 +1,7 @@
 # web_app/routes/home_routes.py
 
 from flask import Blueprint, request, render_template, jsonify, render_template, redirect, flash # FYI new imports
-
+import os
 
 home_routes = Blueprint("home_routes", __name__)
 
@@ -9,6 +9,8 @@ home_routes = Blueprint("home_routes", __name__)
 @home_routes.route("/home")
 def home():
     return render_template("home.html")
+
+
 
 @home_routes.route("/sample")
 def sample():
