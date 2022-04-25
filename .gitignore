@@ -1,5 +1,6 @@
 ## Google Sheets Pull Data
 client_secret.json
+google-credentials.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
