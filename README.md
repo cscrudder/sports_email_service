@@ -43,30 +43,45 @@ Create a new file called ".env" in the root directory of this repo, and paste th
 
 ### Google
 
-To be able to send webpage user submissions to a Google Sheet then pull them to send daily emails, create a file called 'client_secret.json' in the root directory, following the instructions [here](https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html).
+To be able to send webpage user submissions to a Google Sheet then pull them to send daily emails, create a file called 'google-credentials.json' in the root directory, following the instructions [here](https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html).
 
 You will need to make a Google Sheet called "nhl_daily_email_data" from your Google Account for send and recieve user data from.
 
 ```sh
 # these are example contents for the ".env" file:
-
-# required vars:
 SPORTSRADAR_NHL_API='________________'
 SENDGRID_API_KEY='________________'
 SENDER_EMAIL_ADDRESS='________________'
-
-# optional vars:
-TIMEZONE='ET'
 ```
 
-## Usage
+## Local Usage
+### Usage
 To send all registered users a briefing:
 ```sh
 python -m app.functions
 ```
 
-## Run Flask
+### Run Flask
+To run the web application locally, run the following code in your terminal: 
 ```sh
 export FLASK_APP=web_app
 flask run
+```
+
+### Testing
+Our program is equipped with tests to ensure that the APIs work, the proper game is always recommended, and that our formatting functions work. To run the tests, run the following line of code in your terminal:
+```sh
+python -m pytest
+```
+
+## Heroku Usage
+This program is designed to run once daily at 5am ET on the Heroku server. To do this, you must create a Heroku app. Then you can push the app to Heroku through the terminal:
+```sh
+git push heroku main
+```
+Next, you must go to Heroku and set up enivornmental variables. Go to the 'Settings' tab of your app. Click 'Reveal Config Vars'. Enter "GOOGLE_CREDENTIALS" and paste the contents of your google-credentials.json file inside. Then, add the variables from the .env file.
+
+You can then enable and configure 'Heroku Scheduler' to send the email daily. You need to tell the scheduler to run the following code:
+```sh
+python -m app.functions
 ```

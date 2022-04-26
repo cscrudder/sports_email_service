@@ -1,5 +1,6 @@
 from datetime import date
 import sched
+import google_auth_oauthlib
 import requests
 from dotenv import load_dotenv
 import os
@@ -50,6 +51,29 @@ def get_schedule():
     schedule_data = schedule_r.json()
 
     return schedule_data
+
+# FUNCTION THAT PULLS USER DATA FROM GOOGLE SHEET
+def get_user_data(): 
+    # syntax courtesy of: https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
+
+
+    # use creds to create a client to interact with the Google Drive API
+    scope = ['https://spreadsheets.google.com/feeds',
+            'https://www.googleapis.com/auth/drive']
+    creds = ServiceAccountCredentials.from_json_keyfile_name('google-credentials.json', scope)
+
+
+    client = gspread.authorize(creds)
+
+    # # Find a workbook by name and open the first sheet
+    # # Make sure you use the right name here.
+    sheet = client.open("nhl_daily_email_data").sheet1
+
+    # # Extract and print all of the values
+    users = sheet.get_all_records()
+    return users
 
 # FUNCTION THAT DETERMINES THE FEATURED GAME
 def featured_game(user, schedule_data):
@@ -247,7 +271,7 @@ def nhl_conference_standings(standings_data):
 
         
         conf_html += '<h3>' + standings_data["conferences"][conference]["alias"].title() + " Conference Standings</h3>"
-        conf_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Loss</th><th>Points</th></tr>'
+        conf_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Losses</th><th>Points</th></tr>'
         for item in conf_teams:
             conf_html += '<tr><td>' + str(item[0]) + '</td>' + '<td>' + str(item[1]) + ' ' + str(item[2]) + '</td>' + '<td>' + str(item[3]) + '</td>' + '<td>' + str(item[4]) + '</td>' + '<td>' + str(item[5]) + '</td>' + '<td>' + str(item[6]) + '</td></tr>'
         conf_html += '</table>'
@@ -290,7 +314,7 @@ def nhl_division_standings(standings_data):
             div_teams = sorted(div_teams, key = lambda x: x[0])
 
             div_html += '<h3>' + standings_data["conferences"][conference]["divisions"][division]["alias"].title() + ' Division Standings</h3>'
-            div_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Loss</th><th>Points</th></tr>'
+            div_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Losses</th><th>Points</th></tr>'
             for item in div_teams:
                 div_html += '<tr><td>' + str(item[0]) + '</td>' + '<td>' + str(item[1]) + ' ' + str(item[2]) + '</td>' + '<td>' + str(item[3]) + '</td>' + '<td>' + str(item[4]) + '</td>' + '<td>' + str(item[5]) + '</td>' + '<td>' + str(item[6]) + '</td></tr>'
             div_html += '</table>'
@@ -378,7 +402,7 @@ def game_formatter(schedule_data, timezone='ET'):
     schedule_html += '</ul>'
     return schedule_html
 # schedule['games'] to print the day's schedule
-# print(game_formatter(featured_game(user, schedule))) to print the recommended game
+# game_formatter(featured_game(user, schedule))) to get the recommended game
 
 # FUNCTION THAT COMBINES ALL PREVIOUS FUNCTIONS TO PRODUCE 1 HTML MESSAGE
 def html_message(user_data,standings_data,schedule_data):
@@ -412,46 +436,26 @@ def send_email(subject="Daily Hockey Report", html="<p>Hello World</p>", recipie
         print("OOPS", type(e), e)
         return None
 
-# FUNCTION THAT PULLS USER DATA FROM GOOGLE SHEET
-def get_user_data(): 
-    # syntax courtesy of: https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
-    import gspread
-    from oauth2client.service_account import ServiceAccountCredentials
 
-
-    # use creds to create a client to interact with the Google Drive API
-    scope = ['https://spreadsheets.google.com/feeds',
-            'https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name('google-credentials.json', scope)
-
-
-    client = gspread.authorize(creds)
-
-    # # Find a workbook by name and open the first sheet
-    # # Make sure you use the right name here.
-    sheet = client.open("nhl_daily_email_data").sheet1
-
-    # # Extract and print all of the values
-    users = sheet.get_all_records()
-    return users
 
 
 if __name__ == "__main__":
     standings = get_standings()
     schedule = get_schedule()
+    users = get_user_data()
     # print(game_formatter(featured_game(user, schedule)))
     # print(nhl_conference_standings(standings))
     # print(nhl_division_standings(standings))
     # print(game_formatter(schedule['games']))
     # print(html_message(user,standings,schedule))
 
-    users = get_user_data()
+    # print(schedule)
+    # print(schedule)
 
     from datetime import date
     today = date.today().strftime("%b %d %Y")
     email_subject = "NHL Daily Briefing: " + today
-
-
+    
     for user in users:
         send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
 
