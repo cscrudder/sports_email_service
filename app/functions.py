@@ -408,7 +408,7 @@ def html_message(user_data,standings_data,schedule_data):
     html_message = ''
     html_message += '<h3>Hey ' + user_data['name'] + ',</h3><p>Here is your daily update!</b>'
     html_message += "<h1>Today's Recommended Game:</h1>" + game_formatter(featured_game(user_data, schedule_data),standings_data, user_data['time_zone'])
-    html_message += "<h1>Today's Schedule:</h1>" + game_formatter(schedule_data['games'],user_data['time_zone'])
+    html_message += "<h1>Today's Schedule:</h1>" + game_formatter(schedule_data['games'], standings_data, user_data['time_zone'])
     html_message += "<h1>League Standings:</h1>" + nhl_division_standings(standings_data) + nhl_conference_standings(standings_data)
     return html_message
 
