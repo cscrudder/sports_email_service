@@ -1,21 +1,10 @@
 # place for testing the functions we have written
 
 #from typing_extensions import assert_type
-from app.functions import get_standings, get_schedule, get_user_data, featured_game, time_formatter, game_formatter
-from datetime import date
+from app.functions import featured_game, time_formatter, game_formatter
 
-def test_get_standings():
-    # This tests that 1) the API makes the pull and 2) the league is correct (Sportradar offers APIs for many leagues, so this is good to check)
-    standings_data = get_standings()
-    assert standings_data['league']['name'] == 'NHL'
 
-def test_get_schedule():
-    schedule_data = get_schedule()
-    # This tests that 1) the API makes the pull and 2) API is sending data from the correct day:
-    today = date.today().strftime("%Y-%m-%d")
-    assert schedule_data['date'] == today
-    # This tests that the league is correct
-    assert schedule_data['league']['name'] == 'NHL'
+
 
 def test_game_formatter():
     # Tests one game if formatted like we want (we put this output in a text editor to verify it is what we want)
@@ -82,11 +71,6 @@ def test_game_formatter():
     formatted_game2 = game_formatter(test_game2, test_standings)
     assert formatted_game2 == '<li><b>Anaheim Ducks at San Jose Sharks</b> (10:30PM ET)<ul style="list-style-type: circle; padding-bottom: 0;"><li style="margin-left:em">Records: Ducks (30W-36L) | Sharks (32W-35L)</li><li style="margin-left:em">Broadcasts: NBCS-CA (home) and BSSC (away)</li></ul></li></ul>'
 
-def test_get_user_data():
-    ## This tests if the google sheet has the headings of user data we need to run the functions
-    user_data = get_user_data()
-    google_sheet_keys = list(user_data[0].keys())
-    assert google_sheet_keys == ['name', 'email', 'affiliation', 'time_zone']
 
 def test_featured_game():
     ## This part tests if the users' favorite team will be returned.
