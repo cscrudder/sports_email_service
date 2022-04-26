@@ -449,13 +449,13 @@ if __name__ == "__main__":
     # print(html_message(user,standings,schedule))
 
     # print(schedule)
-    # print(schedule)
+    print(standings)
 
-    from datetime import date
-    today = date.today().strftime("%b %d %Y")
-    email_subject = "NHL Daily Briefing: " + today
+    # from datetime import date
+    # today = date.today().strftime("%b %d %Y")
+    # email_subject = "NHL Daily Briefing: " + today
     
-    for user in users:
-        send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
+    # for user in users:
+    #     send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
 
 
