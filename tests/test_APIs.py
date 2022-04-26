@@ -2,6 +2,7 @@
 # These are in a different folder to exempt them from GitHub Actions Tests
 
 from app.functions import get_standings, get_schedule, get_user_data
+
 from datetime import date
 
 def test_get_standings():
