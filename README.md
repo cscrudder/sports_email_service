@@ -73,6 +73,7 @@ Our program is equipped with tests to ensure that the APIs work, the proper game
 ```sh
 python -m pytest
 ```
+This project is enabled with GitHub Actions to automatically run Pytests. However, the API tests have been exempted from GitHub testing since they require secret credentials in the .env file. However, they can be tested locally.
 
 ## Heroku Usage
 This program is designed to run once daily at 5am ET on the Heroku server. To do this, you must create a Heroku app. Then you can push the app to Heroku through the terminal:

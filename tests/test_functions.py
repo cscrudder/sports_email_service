@@ -1,11 +1,9 @@
-# place for testing the functions we have written
+# Testing the non-API functions we have written
+# API tests are in a seperate file to exempt them from GitHub Actions
 
-#from typing_extensions import assert_type
 from app.functions import featured_game, time_formatter, game_formatter
 
-
-
-
+## Tests game_formatter
 def test_game_formatter():
     # Tests one game if formatted like we want (we put this output in a text editor to verify it is what we want)
     test_game = [{'id': '58791bfc-641e-4440-8607-6d3b3ddb40b3', 'status': 'scheduled', 'coverage': 'full', 'scheduled': '2022-04-26T23:00:00Z', 'sr_id': 'sr:match:28276586', 'reference': '21274', 'venue': {'id': 'e1e675a3-9c13-48b3-9e22-4c063dd9905d', 'name': 'Canadian Tire Centre', 'capacity': 18572, 'address': '1000 Palladium Drive', 'city': 'Ottawa', 'state': 'ON', 'country': 'CAN', 'time_zone': 'US/Eastern', 'sr_id': 'sr:venue:6066'}, 'broadcasts': [{'network': 'TSN5', 'type': 'TV', 'locale': 'International'}, {'network': 'RDS2', 'type': 'TV', 'locale': 'International'}, {'network': 'MSG+', 'type': 'TV', 'locale': 'Away', 'channel': '634-1'}], 'home': {'id': '4416f5e2-0f24-11e2-8525-18a905767e44', 'name': 'Ottawa Senators', 'alias': 'OTT', 'sr_id': 'sr:team:3700', 'reference': '9'}, 'away': {'id': '44174b0c-0f24-11e2-8525-18a905767e44', 'name': 'New Jersey Devils', 'alias': 'NJ', 'sr_id': 'sr:team:3704', 'reference': '1'}}]
@@ -71,7 +69,7 @@ def test_game_formatter():
     formatted_game2 = game_formatter(test_game2, test_standings)
     assert formatted_game2 == '<li><b>Anaheim Ducks at San Jose Sharks</b> (10:30PM ET)<ul style="list-style-type: circle; padding-bottom: 0;"><li style="margin-left:em">Records: Ducks (30W-36L) | Sharks (32W-35L)</li><li style="margin-left:em">Broadcasts: NBCS-CA (home) and BSSC (away)</li></ul></li></ul>'
 
-
+## Tests featured_game
 def test_featured_game():
     ## This part tests if the users' favorite team will be returned.
     test_schedule = {'date': '2022-04-26', 'league': {'id': 'fd560107-a85b-4388-ab0d-655ad022aff7', 'name': 'NHL', 'alias': 'NHL'}, \
@@ -97,6 +95,7 @@ def test_featured_game():
     selected_game = featured_game(user,test_schedule)
     assert selected_game[0]['home']['name'] == 'Montreal Canadiens'
 
+## Tests time_formatter
 def test_time_formatter():
     ## These test time zone
     assert time_formatter('2022-04-08T23:00:00Z','ET') == '7PM ET'

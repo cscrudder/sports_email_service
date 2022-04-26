@@ -16,8 +16,18 @@ SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 RECIPIENT_EMAIL_ADDRESS = os.getenv("RECIPIENT_EMAIL_ADDRESS")
 
 
-# API REQUESTS
+# Sportradar API REQUESTS
 def get_standings():
+    """
+    This function returns a dictionary from the Sportsradar API with NHL league standings data.
+    The API is accessed with the following URL (see below in python syntax):
+
+    'http://api.sportradar.us/nhl/trial/v7/en/seasons/' + season + '/REG/standings.json?api_key=' + api_key
+
+    In the above, the season part should be a year and the API key should be obtained by each developer.
+
+    When the data is returned from the API, it is stored in the return variable.
+    """
 
     load_dotenv()
 
@@ -34,6 +44,15 @@ def get_standings():
     return standings_data
 
 def get_schedule():
+    """
+    This function returns the daily NHL game schedule from the Sportradar API.
+    The API can be accessed with the following URL (see below in python syntax):
+
+    'http://api.sportradar.us/nhl/trial/v7/en/games/' + year + '/'+ month + '/'+ day + '/schedule.json?api_key=' + api_key
+
+    When the data is returned from the API, it is stored in the return variable.
+    """
+
     load_dotenv()
     time.sleep(1.1)
     # sets today's date
@@ -54,6 +73,10 @@ def get_schedule():
 
 # FUNCTION THAT PULLS USER DATA FROM GOOGLE SHEET
 def get_user_data(): 
+    """
+    This function gets user data from a google sheet called 'nhl_daily_email_data'. It does not require any inputs and returns a list of dictionaries.
+    """    
+
     # syntax courtesy of: https://www.twilio.com/blog/2017/02/an-easy-way-to-read-and-write-to-a-google-spreadsheet-in-python.html
     import gspread
     from oauth2client.service_account import ServiceAccountCredentials
@@ -269,7 +292,7 @@ def nhl_conference_standings(standings_data):
         
         conf_teams = sorted(conf_teams, key = lambda x: x[0])
 
-        
+        ## HTML formatting
         conf_html += '<h3>' + standings_data["conferences"][conference]["alias"].title() + " Conference Standings</h3>"
         conf_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Losses</th><th>Points</th></tr>'
         for item in conf_teams:
@@ -313,6 +336,7 @@ def nhl_division_standings(standings_data):
         
             div_teams = sorted(div_teams, key = lambda x: x[0])
 
+            # HTML formatting
             div_html += '<h3>' + standings_data["conferences"][conference]["divisions"][division]["alias"].title() + ' Division Standings</h3>'
             div_html += '<table><tr><th>Rank</th><th>Team</th><th>Wins</th><th>Losses</th><th>OT Losses</th><th>Points</th></tr>'
             for item in div_teams:
@@ -342,6 +366,7 @@ def time_formatter(time, timezone="ET"):
     hour = int(local_time[11:][:2])
     minutes = int(local_time[14:][:2])
 
+    # Formats AM/PM and on-the-hour/not-on-the-hour starts nicely
     if minutes == 0:
         if hour > 12:
             return (str(hour - 12) + 'PM' + ' ' + timezone)
@@ -355,6 +380,13 @@ def time_formatter(time, timezone="ET"):
 
 # CONVERTS GAME DATA TO HTML
 def game_formatter(schedule_data, standings_data, timezone='ET'):
+    """
+    This function formats games in the following way in HTML:
+        - Away Team at Home Team (TIME)
+            - Records
+            - Broadcast Info
+    It requires daily schedule data (in a list), stanings data (in the API SportsRadar API format), and optionally the time zone you want displayed (ET,CT,MT,PT, or AKT only)
+    """
 
     schedule_html = ''
 
@@ -405,11 +437,22 @@ def game_formatter(schedule_data, standings_data, timezone='ET'):
 
 # FUNCTION THAT COMBINES ALL PREVIOUS FUNCTIONS TO PRODUCE 1 HTML MESSAGE
 def html_message(user_data,standings_data,schedule_data):
+    """
+    This function aggregates all the HTML messages to form a cohesive email. It requires user_data (list of dictionaires with keys name, email, affiliation, time_zone), NHL standings data (in the Sportradar API output format), and schedule data (in the Sportradar API output format)
+    The function callls all HTML formatting functions then appenends those strings.
+    It returns the HTML code for the email
+    """
+    # Starts with a blank string
     html_message = ''
+    # Adds the user name and salutation
     html_message += '<h3>Hey ' + user_data['name'] + ',</h3><p>Here is your daily update!</b>'
+    # Adds recommended game info
     html_message += "<h1>Today's Recommended Game:</h1>" + game_formatter(featured_game(user_data, schedule_data),standings_data, user_data['time_zone'])
+    # Adds the daily schedule
     html_message += "<h1>Today's Schedule:</h1>" + game_formatter(schedule_data['games'], standings_data, user_data['time_zone'])
+    # Adds league stadnings
     html_message += "<h1>League Standings:</h1>" + nhl_division_standings(standings_data) + nhl_conference_standings(standings_data)
+    # Returns HTML
     return html_message
 
 # FUNCTION THAT SENDS EMAILS
@@ -449,13 +492,13 @@ if __name__ == "__main__":
     # print(html_message(user,standings,schedule))
 
     # print(schedule)
-    print(standings)
+    # print(standings)
 
-    # from datetime import date
-    # today = date.today().strftime("%b %d %Y")
-    # email_subject = "NHL Daily Briefing: " + today
+    from datetime import date
+    today = date.today().strftime("%b %d %Y")
+    email_subject = "NHL Daily Briefing: " + today
     
-    # for user in users:
-    #     send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
+    for user in users:
+        send_email(subject=email_subject, html=html_message(user,standings,schedule), recipient_address=user['email'])
 
 
