@@ -354,7 +354,7 @@ def time_formatter(time, timezone="ET"):
             return (str(hour) + ':' + str(minutes) + 'AM' + ' ' + timezone) 
 
 # CONVERTS GAME DATA TO HTML
-def game_formatter(schedule_data, timezone='ET'):
+def game_formatter(schedule_data, standings_data, timezone='ET'):
 
     schedule_html = ''
 
@@ -365,7 +365,6 @@ def game_formatter(schedule_data, timezone='ET'):
         schedule_html += '<li><b>' + game['away']['name'] + ' at ' + game['home']['name'] + '</b> (' + time_formatter(game['scheduled'], timezone) + ')'
 
         # Makes list of lists st [team name, win #, loss #]
-        standings_data = get_standings()
         standings = []
         for conference in standings_data['conferences']:
             for division in conference['divisions']:
@@ -408,7 +407,7 @@ def game_formatter(schedule_data, timezone='ET'):
 def html_message(user_data,standings_data,schedule_data):
     html_message = ''
     html_message += '<h3>Hey ' + user_data['name'] + ',</h3><p>Here is your daily update!</b>'
-    html_message += "<h1>Today's Recommended Game:</h1>" + game_formatter(featured_game(user_data, schedule_data),user_data['time_zone'])
+    html_message += "<h1>Today's Recommended Game:</h1>" + game_formatter(featured_game(user_data, schedule_data),standings_data, user_data['time_zone'])
     html_message += "<h1>Today's Schedule:</h1>" + game_formatter(schedule_data['games'],user_data['time_zone'])
     html_message += "<h1>League Standings:</h1>" + nhl_division_standings(standings_data) + nhl_conference_standings(standings_data)
     return html_message
